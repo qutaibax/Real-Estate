@@ -37,5 +37,11 @@ class Book extends Model
         return $this->belongsTo(Apartment::class, 'apartment_id');
     }
 
+    //PK
+    public function transactions()
+    {
+        return $this->hasMany(Modification::class, 'book_id');
+    }
+
 
 }

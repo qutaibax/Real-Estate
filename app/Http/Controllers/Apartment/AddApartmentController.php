@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class AddApartmentController extends Controller
 {
-    use Image;
+
     public function add(Request $request)
     {
         $validate = $request->validate(Apartment::rules());

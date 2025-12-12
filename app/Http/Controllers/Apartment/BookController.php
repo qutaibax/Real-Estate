@@ -13,13 +13,14 @@ class BookController extends Controller
     {
 
         $validate = $request->validate(Book::rules());
-        $validate['renter_id'] = auth()->id();
+        //$validate['renter_id'] = auth()->id();
+
         $book = Book::query()->find($validate['apartment_id']);
-        $Check = Book::query()->where('apartment_id', $book->id)
-            ->where(function ($query) use ($validate) {
-                $query->whereBetween('start_date', [$validate['start_date'], $validate['end_date']])
-                    ->orWhereBetween('end_date', [$validate['start_date'], $validate['end_date']]);
-            })->first();
+            $Check = Book::query()->where('apartment_id', $book->id)
+                ->where(function ($query) use ($validate) {
+                    $query->whereBetween('start_date', [$validate['start_date'], $validate['end_date']])
+                        ->orWhereBetween('end_date', [$validate['start_date'], $validate['end_date']]);
+                })->first();
 
         if ($Check) {
             return response()->json([
