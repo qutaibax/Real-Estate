@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -23,10 +22,10 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->string('site')->nullable();
-            $table->string('transaction')->default('cache');
+            $table->enum('transaction', ['cache','paypal'])->default('cache');
             $table->enum('is_approved', ['pending', 'approved', 'rejected'])
-                ->default('pending');               //by owner
-            $table->enum('status',['current','cancelled','ended'])
+                ->default('pending');
+            $table->enum('status', ['current', 'cancelled', 'ended'])
                 ->nullable();
             $table->timestamps();
         });

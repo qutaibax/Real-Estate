@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Traits\Image;
+use App\Traits\sendWhatsAppMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -12,18 +13,33 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
 
-   use Image;
+    use Image, sendWhatsAppMessage;
+
     public function register(Request $request)
     {
         $request->validate(User::rules());
-        $request['image']=self::uploadimage($request);
-        $request['id_image']=self::uploadimage($request,'id_image');
-        $request['password']=Hash::make($request['password']);
-        User::query()->create($request->all());
+
+        $data = $request->except('image', 'id_image');
+        if ($path = self::uploadimage($request)) {
+            $data['image'] = $path;
+        }
+        if ($path2 = self::uploadimage($request, 'id_image')) {
+            $data['id_image'] = $path2;
+        }
+        $data['password'] = Hash::make($request['password']);
+
+        $user1 = User::query()->create($data);
+
+        $code = str_pad(rand(0, 999), 4, '0', STR_PAD_LEFT);
+        $user1['verification_code'] = $code;
+        $user1->save();
+
+        self::send($data['mobile'], $code);
         return response()->json([
             'message' => 'registered successfully,Waiting for Admin to accept',
         ]);
     }
+
 
     public function login(Request $request)
     {
@@ -52,10 +68,14 @@ class UserController extends Controller
 
 
     }
-    public function logout(Request $request){
+
+    public function logout(Request $request)
+    {
         $request->user()->tokens()->delete();
         return response()->json([
             'message' => 'Logged out successfully.',
         ]);
     }
+
+
 }

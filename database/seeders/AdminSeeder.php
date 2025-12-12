@@ -16,7 +16,7 @@ class AdminSeeder extends Seeder
     {
         Admin::query()->create([
             'name' => 'admin',
-            'password' => Hash::make('1234'),
+            'password' => Hash::make('admin'),
         ]);
     }
 }

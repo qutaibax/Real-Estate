@@ -14,10 +14,11 @@ class ApartmentSeeder extends Seeder
     public function run(): void
     {
         $arr=[
-            ['space'=>'150 m','price'=>1500,'country'=>'syria','city'=>'Damascus'],
-            ['space'=>'200 m','price'=>1000,'country'=>'syria','city'=>'Aleppo'],
-            ['space'=>'200 m','price'=>3000,'country'=>'palestine','city'=>'gaza'],
+            ['owner_id'=>1,'space'=>150 ,'price'=>1500,'country'=>'syria','city'=>'Damascus'],
+            ['owner_id'=>1,'space'=>200 ,'price'=>1000,'country'=>'syria','city'=>'Aleppo'],
+            ['owner_id'=>1,'space'=>200 ,'price'=>3000,'country'=>'palestine','city'=>'gaza'],
         ];
+
 
 foreach ($arr as $key => $value) {
     Apartment::create([

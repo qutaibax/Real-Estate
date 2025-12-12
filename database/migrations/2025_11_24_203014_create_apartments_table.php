@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('country');
             $table->string('city');
             $table->text('description')->nullable();
-            $table->float('rate')->nullable();
             $table->boolean('status')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -9,7 +9,11 @@ trait Image
         if (!$request->hasFile($file)) {
             return false;
         }
-        $path = $request->file($file)->store('images', ['disk'=>'public']);
-        return $path;
+        $image = $request->file($file);
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $imageName = $image->storeAs('images', $imageName, 'public');
+        return $imageName;
     }
+
+
 }

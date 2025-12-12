@@ -2,7 +2,19 @@
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schedule;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+
+Schedule::call(function () {
+    DB::table('books')->where('end_date', '<', now())
+        ->where('status', '=', 'current')
+        ->update([
+            'status' => 'ended',
+            'updated_at' => now(),
+        ]);;
+})->everyFiveSeconds();

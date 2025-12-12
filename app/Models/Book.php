@@ -12,18 +12,30 @@ class Book extends Model
         'transaction', 'is_approved', 'status'
     ];
 
+    public static function rules()
+    {
+        return [
+
+            'apartment_id' => 'required',
+            'site' => 'nullable|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'transaction' => 'nullable|string',
+
+        ];
+    }
+
 
     //FK
     public function renter()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'renter_id');
     }
 
     public function apartment()
     {
-        return $this->belongsTo(Apartment::class);
+        return $this->belongsTo(Apartment::class, 'apartment_id');
     }
-
 
 
 }

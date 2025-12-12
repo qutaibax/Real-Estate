@@ -11,7 +11,7 @@ class ApartmentController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Apartment::query();
+        $query = Apartment::query()->with('owner:id,first_name,last_name');
         if ($request->filled('status')) {
             $query->where('status',$request->get('status'));
         }
@@ -23,13 +23,13 @@ class ApartmentController extends Controller
     }
     public function accept($id)
     {
-        $apartments = Apartment::query()->
+        $apartments = Apartment::query()->with('owner')->
         where('id', $id)->where('status', false)->first();
         $apartments->status = true;
         $apartments->save();
         return response()->json([
             'status' => 'success',
-            'message' => 'apartment has been approved successfully',
+            'message' => 'Apartment has been approved successfully',
             'data' => $apartments
         ]);
     }
@@ -42,11 +42,11 @@ class ApartmentController extends Controller
                 'message' => 'apartment not found',
             ]);
         }
-        $apartments->status = false;
-        $apartments->save();
+
+        $apartments->delete();
         return response()->json([
             'status' => 'success',
-            'message' => 'User has been rejected successfully',
+            'message' => 'Apartment has been rejected successfully',
             'data' => $apartments
         ]);
     }

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('password');
             $table->date('birth_date');
             $table->boolean('is_approved')->default(false);
+            $table->string('verification_code',4)->nullable();/////////////////////////////////
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -28,6 +28,11 @@ class AdminController extends Controller
     {
         $users = User::query()->
         where('id', $id)->where('is_approved', false)->first();
+        if (!$users) {
+            return response()->json([
+                'message' => 'User not found',
+            ]);
+        }
         $users->is_approved = true;
         $users->save();
         return response()->json([
@@ -45,14 +50,12 @@ class AdminController extends Controller
                 'message' => 'User not found',
             ]);
         }
-        $users->is_approved = false;
-        $users->save();
+        $users->delete();
         return response()->json([
             'status' => 'success',
             'message' => 'User has been rejected successfully',
             'data' => $users
         ]);
     }
-
 
 }
