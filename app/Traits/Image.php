@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use Couchbase\RequestCanceledException;
+
 trait Image
 {
     public static function uploadimage($request, $file = 'image')

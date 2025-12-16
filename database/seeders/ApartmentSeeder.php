@@ -3,32 +3,36 @@
 namespace Database\Seeders;
 
 use App\Models\Apartment;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\ApImage;
 use Illuminate\Database\Seeder;
 
 class ApartmentSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $arr = [
-            ['owner_id' => 1, 'space' => 150, 'price' => 1500, 'country' => 'syria', 'city' => 'Damascus'],
-            ['owner_id' => 1, 'space' => 200, 'price' => 1000, 'country' => 'syria', 'city' => 'Aleppo'],
-            ['owner_id' => 1, 'space' => 200, 'price' => 3000, 'country' => 'palestine', 'city' => 'gaza'],
+        $apartmentData = [
+            'space' => 150,
+            'price' => 1500,
+            'country' => 'syria',
+            'city' => 'Damascus',
+            'description' => 'This apartment is near old city and convenient from many sides',
+        ];
+
+        $images = [
+            'apartments/kitchen-1.jpg',
+            'apartments/livingroom-1.jpg',
+            'apartments/bedroom-1.jpg',
         ];
 
 
-        foreach ($arr as $key => $value) {
-            Apartment::create([
-                'space' => $value['space'],
-                'price' => $value['price'],
-                'country' => $value['country'],
-                'city' => $value['city'],
+        $apartment = Apartment::create($apartmentData);
 
+
+        foreach ($images as $image) {
+            ApImage::create([
+                'apartment_id' => $apartment->id,
+                'image' => $image,
             ]);
         }
-
     }
 }

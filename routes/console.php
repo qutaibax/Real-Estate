@@ -17,4 +17,4 @@ Schedule::call(function () {
             'status' => 'ended',
             'updated_at' => now(),
         ]);;
-})->everyFiveSeconds();
+})->weekly();

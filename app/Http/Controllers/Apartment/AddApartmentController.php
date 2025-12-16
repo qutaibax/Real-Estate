@@ -42,8 +42,6 @@ class AddApartmentController extends Controller
             ]);
             $uploadedImages[] = $newImage;
         }
-
-
         return response()->json([
             'message' => 'Images uploaded successfully',
             'images' => $uploadedImages
