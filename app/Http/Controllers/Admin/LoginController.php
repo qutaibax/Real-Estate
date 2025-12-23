@@ -20,7 +20,7 @@ class LoginController extends Controller
         $admin = Admin::query()->where('name', $request->name)
             ->first();
         if (!$admin || !Hash::check($request['password'], $admin->password)) {
-            return response()->json(['message' => 'Invalid Credentials']);
+            return response()->json(['message' => 'Invalid Credentials'],404);
         }
         return response()->json([
             'message' => 'Admin logged in successfully.',

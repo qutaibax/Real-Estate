@@ -57,6 +57,10 @@ class User extends Authenticatable
         return $this->HasMany(Book::class);
     }
 
+    public function rate()
+    {
+        return $this->HasMany(Rate::class);
+    }
 
     public static function rules(): array
     {

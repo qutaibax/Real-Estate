@@ -25,11 +25,10 @@ class AddApartmentController extends Controller
         ]);
 
     }
-    public function addImages(Request $request, $id)
+    public  function addImages(Request $request, $id)
     {
 
         $apartment = Apartment::query()->findOrFail($id);
-
         $request->validate([
             'images.*' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048'
         ]);

@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Apartment;
+namespace App\Http\Controllers\Book;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
-use App\Models\User;
-use Illuminate\Http\Request;
 
 class ShowAllBookingsController extends Controller
 {

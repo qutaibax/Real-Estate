@@ -4,11 +4,13 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ApartmentController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Apartment\AddApartmentController;
-use App\Http\Controllers\Apartment\BookController;
 use App\Http\Controllers\Apartment\BrowseApartmentController;
+use App\Http\Controllers\Apartment\EditApartmentController;
 use App\Http\Controllers\Apartment\FilterController;
-use App\Http\Controllers\Apartment\ShowAllBookingsController;
+use App\Http\Controllers\Apartment\RateController;
 use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\Book\BookController;
+use App\Http\Controllers\Book\ShowAllBookingsController;
 use App\Http\Controllers\Modification\ModificationController;
 use App\Http\Controllers\Verifying\SendCodeController;
 use App\Http\Controllers\Verifying\VerifyCodeController;
@@ -50,11 +52,16 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::patch('reject-edit/{id}', [ModificationController::class, 'rejectEdit']);
     //////////////
     Route::get('user-bookings', [ShowAllBookingsController::class, 'index']);
+    /////////////////edit apartment
+    Route::post('edit-apartment/{apartment}',[EditApartmentController::class, 'EditApartment']);
+    Route::get('ownerApartment', [EditApartmentController::class, 'BrowseOwnerApartment']);
+
+/////////rate
+    Route::post('rate/{apartment}', [RateController::class, 'rate']);
 
 });
 
 Route::get('apartment-browse', [BrowseApartmentController::class, 'index']);
-
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 //ADMIN SECTION
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||

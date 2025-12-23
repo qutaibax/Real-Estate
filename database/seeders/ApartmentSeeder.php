@@ -29,7 +29,7 @@ class ApartmentSeeder extends Seeder
 
 
         foreach ($images as $image) {
-            ApImage::create([
+            ApImage::query()->create([
                 'apartment_id' => $apartment->id,
                 'image' => $image,
             ]);

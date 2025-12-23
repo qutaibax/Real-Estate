@@ -4,19 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ApImage extends Model
+class Rate extends Model
 {
     protected $fillable=[
-        'apartment_id','image'
+        'user_id',
+        'apartment_id',
+        'rating',
+        'comment',
     ];
+
 
     public function apartment(){
         return $this->belongsTo(Apartment::class);
     }
 
-
-    protected $appends=['image_url'];
-    public function getImageUrlAttribute(){
-        return asset('storage/'.$this->image);
+    public function user(){
+        return $this->belongsTo(User::class);
     }
+
 }

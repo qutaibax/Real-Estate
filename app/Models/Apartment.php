@@ -26,6 +26,7 @@ class Apartment extends Model
             'description' => 'nullable|string',
             'rooms' => 'nullable|integer',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'contract'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 
@@ -59,4 +60,23 @@ class Apartment extends Model
     public function images(){
         return $this->hasMany(ApImage::class);
     }
+
+    public function rate()
+    {
+        return $this->hasMany(Rate::class);
+    }
+
+    protected $appends = ['booked_periods'];
+    public function getBookedPeriodsAttribute()
+    {
+        return $this->book()
+            ->where('is_approved', 'approved')
+            ->whereDate('end_date', '>=', now())
+            ->get([
+                'start_date',
+                'end_date',
+            ]);
+    }
+
+
 }
