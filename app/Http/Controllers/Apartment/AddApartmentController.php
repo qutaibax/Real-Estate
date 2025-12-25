@@ -11,13 +11,12 @@ use Illuminate\Http\Request;
 
 class AddApartmentController extends Controller
 {
-
+use Image;
     public function add(Request $request)
     {
         $validate = $request->validate(Apartment::rules());
         $validate['owner_id'] = auth()->id();
-
-
+        $validate['contract'] = self::uploadimage($request, 'contract');
         $apartment = Apartment::query()->create($validate);
         return response()->json([
             'message' => 'Successfully created apartment,Wait for the admin to accept',

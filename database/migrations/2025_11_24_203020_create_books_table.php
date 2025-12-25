@@ -27,7 +27,6 @@ return new class extends Migration {
                 ->default('pending');
             $table->enum('status', ['current', 'cancelled', 'ended'])
                 ->nullable();
-          //  $table->softDeletes();
             $table->timestamps();
         });
     }

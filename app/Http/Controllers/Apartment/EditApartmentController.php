@@ -22,7 +22,6 @@ class EditApartmentController extends Controller
     }
     public function EditApartment(Request $request,Apartment $apartment){
       $new_data= $request->validate([
-            'images.*'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'description'=>'nullable|string',
             'price'=>'nullable|string',
         ]);

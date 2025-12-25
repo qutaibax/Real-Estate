@@ -13,6 +13,7 @@ class Apartment extends Model
     protected $fillable = [
         'owner_id', 'country', 'city', 'space',
         'rooms', 'price', 'description', 'rate',
+        'contract'
 
     ];
 
@@ -26,7 +27,7 @@ class Apartment extends Model
             'description' => 'nullable|string',
             'rooms' => 'nullable|integer',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'contract'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'contract' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 
@@ -57,7 +58,8 @@ class Apartment extends Model
         return $this->hasMany(Book::class);
     }
 
-    public function images(){
+    public function images()
+    {
         return $this->hasMany(ApImage::class);
     }
 
@@ -66,7 +68,8 @@ class Apartment extends Model
         return $this->hasMany(Rate::class);
     }
 
-    protected $appends = ['booked_periods'];
+    protected $appends = ['booked_periods','average_rating'];
+
     public function getBookedPeriodsAttribute()
     {
         return $this->book()
@@ -76,6 +79,11 @@ class Apartment extends Model
                 'start_date',
                 'end_date',
             ]);
+    }
+
+    public function getAverageRatingAttribute()
+    {
+        return round($this->rate()->avg('rating') ?? 0,1);
     }
 
 

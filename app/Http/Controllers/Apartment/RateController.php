@@ -17,6 +17,7 @@ class RateController extends Controller
         $hasBook = Book::query()
             ->where('renter_id', $userId)
             ->where('apartment_id', $apartment->id)
+            ->where('status','=','ended')
             ->exists();
 
         if (!$hasBook) {

@@ -45,7 +45,7 @@ class BookController extends Controller
 
         Book::query()->create($validate);
         return response()->json([
-            'message' => ' Book added successfully,Waiting for approval',
+            'message' => ' Book added successfully,Waiting for approving',
         ], 201);
     }
 
@@ -82,8 +82,9 @@ class BookController extends Controller
 
     public function rejectOffer($id)
     {
-
-        $book = Book::query()->with('renter:id,first_name')->where('id', $id)->first();
+        $ownerId = auth()->id();
+        $book = Book::query()->with('renter:id,first_name')
+            ->where('id', $id)->first();
         $book->is_approved = 'rejected';
         $book->status = 'cancelled';
         $book->save();

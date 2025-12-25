@@ -15,7 +15,7 @@ class BrowseApartmentController extends Controller
     {
         $query = Apartment::query()->with(['owner:id,first_name,last_name',
             'images:id,apartment_id,image',
-           'rate:id,apartment_id,rating'
+//            'rate:id,apartment_id,rating'
             ])//:id,apartment_id,image
         ->where('status', true);
         $apartments = $query->get();
