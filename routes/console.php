@@ -5,16 +5,20 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schedule;
 
+use App\Traits\sendWhatsAppMessage;
+
+
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
 
-Schedule::call(function () {
+Schedule::call(function ()   {
     DB::table('books')->where('end_date', '<', now())
         ->where('status', '=', 'current')
         ->update([
             'status' => 'ended',
             'updated_at' => now(),
         ]);;
+
 })->weekly();

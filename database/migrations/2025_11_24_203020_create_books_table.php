@@ -19,12 +19,12 @@ return new class extends Migration {
             $table->foreignId('apartment_id')
                 ->constrained('apartments')->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->date('start_date');//2026-6
+            $table->date('end_date');//2026-8
             $table->string('site')->nullable();
             $table->enum('transaction', ['cache','paypal'])->default('cache');
             $table->enum('is_approved', ['pending', 'approved', 'rejected'])
-                ->default('pending');
+                ->default('pending');//owner
             $table->enum('status', ['current', 'cancelled', 'ended'])
                 ->nullable();
             $table->timestamps();

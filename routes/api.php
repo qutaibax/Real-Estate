@@ -76,3 +76,5 @@ Route::patch('reject/{id}', [AdminController::class, 'reject']);
 
 ///LOG IN
 Route::post('admin-login', [LoginController::class, 'adminLogin']);
+
+Route::patch('cancel/{book}',[ShowAllBookingsController::class, 'cancel']);

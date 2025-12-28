@@ -6,9 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Apartment;
 use App\Models\Book;
 use Illuminate\Http\Request;
-
+use App\Traits\sendWhatsAppMessage;
 class BookController extends Controller
 {
+    use sendWhatsAppMessage;
     public function books(Request $request)
     {
 
