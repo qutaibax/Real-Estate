@@ -13,6 +13,7 @@ The project was built for learning purposes.
 
 ## Features
 - Authentication 
+- Verify code (otp)
 - Admin controls register requests 
 - Add apartment
 - Edit apartment
