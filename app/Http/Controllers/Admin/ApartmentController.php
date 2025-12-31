@@ -11,7 +11,7 @@ class ApartmentController extends Controller
 {
     public function index(Request $request)
     {
-        $request->validate(['is_approved' => 'required|enum']);
+        $request->validate(['status' => 'required']);
         $query = Apartment::query()->with('owner:id,first_name,last_name');
         if ($request->filled('status')) {
             $query->where('status',$request->get('status'));

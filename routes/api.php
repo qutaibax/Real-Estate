@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Book\BookController;
 use App\Http\Controllers\Book\ShowAllBookingsController;
 use App\Http\Controllers\Modification\ModificationController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Verifying\SendCodeController;
 use App\Http\Controllers\Verifying\VerifyCodeController;
 use Illuminate\Support\Facades\Route;
@@ -59,6 +60,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 /////////rate
     Route::post('rate/{apartment}', [RateController::class, 'rate']);
 
+    Route::patch('cancel/{book}',[ShowAllBookingsController::class, 'cancel']);
+/////////////////
+Route::get('notifications', [NotificationController::class, 'Notification']);
+
 });
 
 Route::get('apartment-browse', [BrowseApartmentController::class, 'index']);
@@ -77,4 +82,3 @@ Route::patch('reject/{id}', [AdminController::class, 'reject']);
 ///LOG IN
 Route::post('admin-login', [LoginController::class, 'adminLogin']);
 
-Route::patch('cancel/{book}',[ShowAllBookingsController::class, 'cancel']);

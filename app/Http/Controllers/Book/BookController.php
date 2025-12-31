@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Book;
 use App\Http\Controllers\Controller;
 use App\Models\Apartment;
 use App\Models\Book;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Traits\sendWhatsAppMessage;
+use App\Services\NotificationService;
+
 class BookController extends Controller
 {
     use sendWhatsAppMessage;
@@ -69,11 +72,20 @@ class BookController extends Controller
 
     public function acceptOffer($id)
     {
-
         $book = Book::query()->with('renter:id,first_name')->where('id', $id)->first();
         $book->is_approved = 'approved';
         $book->status = 'current';
         $book->save();
+
+        $renter = User::query()->find($book->renter_id);
+        if ($renter) {
+            app(NotificationService::class)->send(
+                $renter,
+                'Booking',
+                'Your offer is approved',
+                'booking_approved'
+            );
+        }
         return response()->json([
             'message' => ' Book accepted successfully',
             'data' => $book
@@ -90,6 +102,15 @@ class BookController extends Controller
         $book->status = 'cancelled';
         $book->save();
 
+        $renter = User::query()->find($book->renter_id);
+        if ($renter) {
+            app(NotificationService::class)->send(
+                $renter,
+                'Booking',
+                'Your offer is rejected',
+                'booking_approved'
+            );
+        }
         return response()->json([
             'message' => ' Book rejected successfully',
             'data' => $book
