@@ -29,7 +29,6 @@ class ModificationController extends Controller
     public function index()
     {
         $owner_id = auth()->id();
-
         $modifications = Modification::query()->whereHas('book.apartment', function ($query) use ($owner_id) {
             $query->where('owner_id', $owner_id);
         })//->with('book.apartment')
@@ -38,17 +37,27 @@ class ModificationController extends Controller
         return response()->json([
             'modifications' => $modifications
         ]);
-
     }
 
     public function acceptEdit($id)
     {
-       Modification::query()->where('id', $id)
-            ->update(['status' => 'approved']);
+        $modification = Modification::query()->where('id', $id)->first();
+        $modification->update(['status' => 'approved']);
+        $book = Book::query()->where('id', $modification->book_id)->first();
+        if ($modification->new_end_date) {
+            $book->update(['end_date' => $modification->new_end_date]);
+        }
+        if ($modification->new_start_date) {
+            $book->update(['start_date' => $modification->new_start_date]);
+        }
+        if ($modification->transaction) {
+            $book->update(['transaction' => $modification->transaction]);
+        }
         return response()->json([
             'message' => 'Modification approved successfully.'
         ], 200);
     }
+
     public function rejectEdit($id)
     {
 
@@ -60,5 +69,41 @@ class ModificationController extends Controller
         ], 200);
 
     }
+
+
+//    use Illuminate\Support\Facades\DB;
+//
+//    public function acceptEdit($id)
+//    {
+//        $modification = Modification::with('book.apartment')->findOrFail($id);
+//
+//        // تحقق من أن المستخدم هو المالك
+//        if ($modification->book->apartment->owner_id !== auth()->id()) {
+//            return response()->json([
+//                'message' => 'Unauthorized'
+//            ], 403);
+//        }
+//
+//        DB::transaction(function () use ($modification) {
+//
+//            $modification->update([
+//                'status' => 'approved'
+//            ]);
+//
+//            $data = array_filter([
+//                'start_date' => $modification->new_start_date,
+//                'end_date'   => $modification->new_end_date,
+//                'transaction'=> $modification->transaction,
+//            ]);
+//
+//            if (!empty($data)) {
+//                $modification->book->update($data);
+//            }
+//        });
+//
+//        return response()->json([
+//            'message' => 'Modification approved successfully.'
+//        ], 200);
+//    }
 
 }

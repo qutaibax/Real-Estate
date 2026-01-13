@@ -57,7 +57,7 @@ class BookController extends Controller
     {
         $ownerId = auth()->id();
 
-        $books = Book::query()->with('renter:id,first_name', 'apartment:id,city')
+        $books = Book::query()->with('renter:id,first_name,last_name,mobile', 'apartment:id,city')
             ->whereHas('apartment', function ($query) use ($ownerId) {
                 $query->where('owner_id', $ownerId);
             })

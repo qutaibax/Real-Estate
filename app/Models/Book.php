@@ -40,7 +40,7 @@ class Book extends Model
     }
 
     //PK
-    public function transactions()
+    public function modification()
     {
         return $this->hasMany(Modification::class, 'book_id');
     }

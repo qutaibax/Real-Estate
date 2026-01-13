@@ -54,15 +54,18 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     //////////////
     Route::get('user-bookings', [ShowAllBookingsController::class, 'index']);
     /////////////////edit apartment
-    Route::post('edit-apartment/{apartment}',[EditApartmentController::class, 'EditApartment']);
+    Route::post('edit-apartment/{apartment}', [EditApartmentController::class, 'EditApartment']);
     Route::get('ownerApartment', [EditApartmentController::class, 'BrowseOwnerApartment']);
 
 /////////rate
     Route::post('rate/{apartment}', [RateController::class, 'rate']);
 
-    Route::patch('cancel/{book}',[ShowAllBookingsController::class, 'cancel']);
+    Route::patch('cancel/{book}', [ShowAllBookingsController::class, 'cancel']);
 /////////////////
-Route::get('notifications', [NotificationController::class, 'Notification']);
+    Route::get('notifications', [NotificationController::class, 'Notification']);
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::post('/notifications/{id}/delete', [NotificationController::class, 'deleteNotification']);
+
 
 });
 
